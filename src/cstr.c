@@ -876,8 +876,7 @@ cstrarr_len(a)
 
 void
 cstrarr_append(a, s)
-	char ***const a;
-	char *const s;
+	char ***const a, *const s;
 {
 	const size_t l = cstrarr_len((const char *const *const) *a);
 	*a = realloc(*a, sizeof(char*) * (l+2));
@@ -887,8 +886,7 @@ cstrarr_append(a, s)
 
 void
 cstrarr_prepend(a, s)
-	char ***const a;
-	char *const s;
+	char ***const a, *const s;
 {
 	const size_t l = cstrarr_len((const char *const *const) *a);
 	*a = realloc(*a, sizeof(char*) * (l+2));
@@ -922,8 +920,7 @@ cstrarr_pushb(a, s)
 
 void
 cstrarr_append_cstrarr(a0, a1)
-	char ***const a0;
-	char **const a1;
+	char ***const a0, **const a1;
 {
 	const size_t l0 = cstrarr_len((const char *const *const) *a0);
 	const size_t l1 = cstrarr_len((const char *const *const) a1);
@@ -943,8 +940,7 @@ cstrarr_append_cstrarr(a0, a1)
 
 void
 cstrarr_push_cstrarr(a0, a1)
-	char ***const a0;
-	char **const a1;
+	char ***const a0, **const a1;
 {
 	const size_t l0 = cstrarr_len((const char *const *const) *a0);
 	const size_t l1 = cstrarr_len((const char *const *const) a1);
@@ -990,6 +986,34 @@ char
 	*a = realloc(*a, sizeof(char*) * l);
 	(*a)[l-1] = NULL;
 	return r;
+}
+
+size_t
+cstr_find_char(s, c)
+	const char *const s, c;
+{
+	const size_t l = cstr_len(s);
+	size_t i = 0;
+
+	while (i < l)
+		if (s[i++] == c)
+			return i;
+
+	return 0;
+}
+
+size_t
+cstr_find_space(s)
+	const char *const s;
+{
+	const size_t l = cstr_len(s);
+	size_t i = 0;
+
+	while (i < l)
+		if (char_is_space(s[i++]))
+			return i;
+
+	return 0;
 }
 
 #endif /* !CSTR_C */

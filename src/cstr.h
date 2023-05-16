@@ -87,4 +87,6 @@ CSTR_DEF void cstrarr_pushb(char ***const a, const char *const s);
 CSTR_DEF void cstrarr_append_cstrarr(char ***const a0, char ** const a1);
 CSTR_DEF char *cstrarr_pop(char ***const a);
 CSTR_DEF char *cstrarr_shift(char ***const a);
+CSTR_DEF size_t cstr_find_char(const char *const s, const char c);
+CSTR_DEF size_t cstr_find_space(const char *const s);
 #endif /* !CSTR_H */

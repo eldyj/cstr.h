@@ -3,6 +3,7 @@ FLAGS = -O3 -Wall -Wextra
 CCF = $(CC) $(FLAGS)
 BIN = bin
 SRC = src
+EXM = examples
 
 bin:
 	mkdir -p $(BIN)
@@ -16,3 +17,6 @@ cstr.o: cstr.c
 install: cstr.o
 	cp $(SRC)/cstr.h /usr/local/include
 	cp $(BIN)/libcstr.a /usr/local/lib
+
+examples: cstr.c
+	$(CCF) -o$(BIN)/shparse $(EXM)/shparse.c $(BIN)/cstr.o
