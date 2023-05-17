@@ -29,6 +29,8 @@ char
 
 	if (t0 != NULL && *t0 != '\0')
 		cstrarr_append(&a, t0);
+	else
+		free(t0);
 	
 	return a;
 }
@@ -42,8 +44,8 @@ main(void)
 
 	size_t i = 0;
 	while (i < l) {
-		printf("'%s'\n", t[i++]);
-		//free(t[i++]);
+		printf("'%s'\n", t[i]);
+		free(t[i++]);
 	}
 
 	free(t);
