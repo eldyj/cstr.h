@@ -27,7 +27,7 @@ char
 		o = 0;
 	}
 
-	if (t0 != NULL && *t0 != '\0')
+	if (t0 != NULL && *t0)
 		cstrarr_append(&a, t0);
 	else
 		free(t0);

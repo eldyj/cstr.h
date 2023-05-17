@@ -8,22 +8,21 @@ char
 **scsplit(s)
 	const char *const s;
 {
-	char *t0 = cstr_trim(s);
-	char *t1 = NULL;
-	char *const tp = t0;
-
+	char *t = cstr_trim(s);
+	char *const tp = t;
 	size_t i = 0;
 	char **r = malloc(sizeof(char*) * 1);
 	*r = NULL;
 
-	while ((i = cstr_find_char(t0, ';'))) {
-		t1 = cstr_substr(t0, 0, i-1);
-		cstrarr_append(&r, t1);
-		t0 += i;
+	while ((i = cstr_find_char(t, ';'))) {
+		cstrarr_append(&r, cstr_substr(t, 0, i-1));
+		t += i;
 	}
 
+	if (*t)
+		cstrarr_append(&r, cstr_dup(t));
+	
 	free(tp);
-
 	return r;
 }
 
@@ -31,7 +30,7 @@ int
 main(void)
 	/* VOID */
 {
-	char **a = scsplit("1;123;32;123;43;64;45;345453;");
+	char **a = scsplit("1;123;32;123;43;64;45;345453");
 	const size_t l = cstrarr_len((const char *const *const) a);
 	size_t i = 0;
 
