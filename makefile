@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -O3 -Wall -Wextra
+FLAGS = -O3 -Wall -Wextra -g3
 CCF = $(CC) $(FLAGS)
 BIN = bin
 SRC = src
@@ -18,5 +18,11 @@ install: cstr.o
 	cp $(SRC)/cstr.h /usr/local/include
 	cp $(BIN)/libcstr.a /usr/local/lib
 
-examples: cstr.c
+examples/shparse.c: cstr.c
 	$(CCF) -o$(BIN)/shparse $(EXM)/shparse.c $(BIN)/cstr.o
+
+examples/scsplit.c: cstr.c
+	$(CCF) -o$(BIN)/scsplit $(EXM)/scsplit.c $(BIN)/cstr.o
+
+examples/: examples/shparse.c examples/scsplit.c
+examples: examples/

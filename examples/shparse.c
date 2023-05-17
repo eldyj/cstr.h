@@ -20,7 +20,7 @@ char
 			i = cstr_find_char(t0+o, '"');
 		}
 	
-		cstrarr_append(&a, cstr_bashslice(t0, o, i-1));
+		cstrarr_append(&a, cstr_bashslice(t0+o, 0, i-1));
 		t1 = cstr_ltrim(t0+i+o);
 		free(t0);
 		t0 = t1;
