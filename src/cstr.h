@@ -92,8 +92,9 @@ CSTR_DEF size_t cstr_find_space(const char *const s);
 CSTR_DEF void cstr_ltrim_self(char **const s);
 CSTR_DEF void cstr_rtrim_self(char **const s);
 CSTR_DEF void cstr_trim_self(char **const s);
-CSTR_DEF char **cstr_split_char(const char *const s, const char c);
+//CSTR_DEF char **cstr_split_char(const char *const s, const char c);
 CSTR_DEF char **cstr_split(const char *const s0, const char *const s1);
 CSTR_DEF char *cstrarr_join(const char *const *const a, const char *const s);
 CSTR_DEF void cstrarr_free(char ***const a);
+CSTR_DEF void cstrarr_reverse(const char **const *const a);
 #endif /* !CSTR_H */

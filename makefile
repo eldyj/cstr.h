@@ -30,5 +30,8 @@ examples/replace.c: cstr.c
 examples/strsplit.c: cstr.c
 	$(CCF) -o$(BIN)/strsplit $(EXM)/strsplit.c $(BIN)/cstr.o
 
-examples/: examples/shparse.c examples/scsplit.c examples/replace.c examples/strsplit.c
+examples/strarrrev.c: cstr.c
+	$(CCF) -o$(BIN)/strarrrev $(EXM)/strarrrev.c $(BIN)/cstr.o
+
+examples/: examples/shparse.c examples/scsplit.c examples/replace.c examples/strsplit.c examples/strarrrev.c
 examples: examples/

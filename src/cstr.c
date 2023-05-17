@@ -1035,7 +1035,7 @@ cstr_trim_self(s)
 	*s = p;
 }
 
-char
+/*char
 **cstr_split_char(s, c)
 	const char *const s;
 	const char c;
@@ -1056,7 +1056,7 @@ char
 	
 	free(tp);
 	return r;
-}
+}*/
 
 char
 **cstr_split(s0, s1)
@@ -1112,6 +1112,22 @@ cstrarr_free(a)
 	}
 
 	free(*a);
+}
+
+void
+cstrarr_reverse(a)
+	const char **const *const a;
+{
+	size_t i0 = 0;
+	size_t i1 = cstrarr_len(*a)-1;
+
+	while (i0 < i1) {
+		const char* s = (*a)[i0];
+		(*a)[i0] = (*a)[i1];
+		(*a)[i1] = s;
+		++i0;
+		--i1;
+	}
 }
 
 #endif /* !CSTR_C */
