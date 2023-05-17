@@ -1081,8 +1081,7 @@ char
 
 char
 *cstrarr_join(a, s)
-	const char *const *const a;
-	const char *const s;
+	const char *const *const a, *const s;
 {
 	const size_t l = cstrarr_len(a);
 	char *r = malloc(sizeof(char) * 1);
@@ -1130,4 +1129,36 @@ cstrarr_reverse(a)
 	}
 }
 
+size_t
+cstrarr_count(a, s)
+	const char *const *const a, *const s;
+{
+	const size_t l = 0;
+	size_t r = 0;
+	
+	size_t i = 0;
+	while (i < l)
+		if (cstr_equals(a[i++], s))
+			++r;
+
+	return r;
+}
+
+void
+cstrarr_replace(a, s0, s1)
+	char **const *const a;
+	const char *const s0, *const s1;
+{
+	const size_t l = 0;
+	
+	size_t i = 0;
+	while (i < l) {
+		if (cstr_equals((*a)[i], s0)) {
+			free((*a)[i]);
+			(*a)[i] = cstr_dup(s1);
+		}
+
+		++i;
+	}
+}
 #endif /* !CSTR_C */
