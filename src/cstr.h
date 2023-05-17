@@ -25,7 +25,7 @@ CSTR_DEF uint8_t cstr_nequals(const char *const s0, const char *const s1, size_t
 CSTR_DEF uint8_t cstr_equals(const char *const s0, const char *const s1);
 CSTR_DEF void cstr_to_reversed(char *const *const s);
 CSTR_DEF char *cstr_reverse(const char *const s);
-CSTR_DEF uint8_t cstr_contains(const char *const s0, const char *const s1);
+CSTR_DEF size_t cstr_contains(const char *const s0, const char *const s1);
 CSTR_DEF uint8_t cstr_startswith(const char *const s0, const char *const s1);
 CSTR_DEF uint8_t cstr_endsswith(const char *const s0, const char *const s1);
 CSTR_DEF char *cstr_replace_once(const char *const s0, const char *const s1, const char *const s2);
@@ -89,4 +89,11 @@ CSTR_DEF char *cstrarr_pop(char ***const a);
 CSTR_DEF char *cstrarr_shift(char ***const a);
 CSTR_DEF size_t cstr_find_char(const char *const s, const char c);
 CSTR_DEF size_t cstr_find_space(const char *const s);
+CSTR_DEF void cstr_ltrim_self(char **const s);
+CSTR_DEF void cstr_rtrim_self(char **const s);
+CSTR_DEF void cstr_trim_self(char **const s);
+CSTR_DEF char **cstr_split_char(const char *const s, const char c);
+CSTR_DEF char **cstr_split(const char *const s0, const char *const s1);
+CSTR_DEF char *cstrarr_join(const char *const *const a, const char *const s);
+CSTR_DEF void cstrarr_free(char ***const a);
 #endif /* !CSTR_H */

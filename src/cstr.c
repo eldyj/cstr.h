@@ -170,7 +170,7 @@ char
 	return r;
 }
 
-uint8_t
+size_t
 cstr_contains(s0, s1)
 	const char *const s0, *const s1;
 {
@@ -186,7 +186,7 @@ cstr_contains(s0, s1)
 	while (i <= e) {
 		if (s0[i] == s1[0])
 			if (cstr_nequals(s0+i, s1, l1))
-				return 1;
+				return i+1;
 				
 		++i;
 	}
@@ -223,7 +223,9 @@ char
 *cstr_replace_once(s0, s1, s2)
 	const char *const s0, *const s1, *const s2;
 {
-	if (!cstr_contains(s0, s1))
+	size_t i = 0;
+
+	if (!(i =  cstr_contains(s0, s1)))
 		return NULL;
 
 	const size_t l0 = cstr_len(s0);
@@ -232,29 +234,19 @@ char
 	if (l0 < l1)
 		return NULL;
 	
-	if (cstr_startswith(s0, s1))
-		return cstr_concat(s2, s0+l1);
+	// if (cstr_startswith(s0, s1))
+		// return cstr_concat(s2, s0+l1);
+// 
+	// if (cstr_endswith(s0, s1)) {
+		// char *t0 = cstr_substr(s0, 0, l0-l1);
+		// cstr_append(&t0, s2);
+		// return t0;
+	// }
 
-	if (cstr_endswith(s0, s1)) {
-		char *t0 = cstr_substr(s0, 0, l0-l1);
-		cstr_append(&t0, s2);
-		return t0;
-	}
-
-	size_t i = 0;
-	const size_t e = l0 - l1;
-
-	while (i <= e) {
-		if (s0[i] == s1[0]) {
-			if (cstr_nequals(s0+i, s1, l1)) {
-				char *t0 = cstr_substr(s0, 0, i);
-				cstr_append(&t0, s2);
-				cstr_append(&t0, s0+i+l1);
-				return t0;
-			}
-		}
-		++i;
-	}
+	char *t0 = cstr_substr(s0, 0, i-1);
+	cstr_append(&t0, s2);
+	cstr_append(&t0, s0+i-1+l1);
+	return t0;
 
 	return NULL;
 }
@@ -1014,6 +1006,112 @@ cstr_find_space(s)
 			return i;
 
 	return 0;
+}
+
+void
+cstr_ltrim_self(s)
+	char **const s;
+{
+	char *p = cstr_ltrim(*s);
+	free(*s);
+	*s = p;
+}
+
+void
+cstr_rtrim_self(s)
+	char **const s;
+{
+	char *p = cstr_rtrim(*s);
+	free(*s);
+	*s = p;
+}
+
+void
+cstr_trim_self(s)
+	char **const s;
+{
+	char *p = cstr_trim(*s);
+	free(*s);
+	*s = p;
+}
+
+char
+**cstr_split_char(s, c)
+	const char *const s;
+	const char c;
+{
+	char *t = cstr_trim(s);
+	char *const tp = t;
+	size_t i = 0;
+	char **r = malloc(sizeof(char*) * 1);
+	*r = NULL;
+
+	while ((i = cstr_find_char(t, c))) {
+		cstrarr_append(&r, cstr_substr(t, 0, i-1));
+		t += i;
+	}
+
+	if (*t)
+		cstrarr_append(&r, cstr_dup(t));
+	
+	free(tp);
+	return r;
+}
+
+char
+**cstr_split(s0, s1)
+	const char *const s0, *const s1;
+{
+	const size_t l1 = cstr_len(s1);
+	size_t i = 0;
+	const char *s0p = (const char*) s0; 
+	char **r = malloc(sizeof(char*) * 1);
+	*r = NULL;
+
+	while ((i = cstr_contains(s0p, s1))) {
+		cstrarr_append(&r, cstr_bashslice(s0p, 0, i-1));
+		s0p += i+l1-1;
+	}
+
+	if (*s0p)
+		cstrarr_append(&r, cstr_dup(s0p));
+
+	return r;
+}
+
+char
+*cstrarr_join(a, s)
+	const char *const *const a;
+	const char *const s;
+{
+	const size_t l = cstrarr_len(a);
+	char *r = malloc(sizeof(char) * 1);
+	*r = 0;
+
+	size_t i = 0;
+	
+	while (i < l) {
+		cstr_append(&r, a[i++]);
+		
+		if (i != l)
+			cstr_append(&r, s);
+	}
+
+	return r;
+}
+
+void
+cstrarr_free(a)
+	char ***const a;
+{
+	const size_t l = cstrarr_len((const char *const *const) *a);
+	
+	size_t i = 0;
+	while (i < l) {
+		free((*a)[i++]);
+	}
+
+	free(*a);
 }
 
 #endif /* !CSTR_C */

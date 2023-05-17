@@ -24,5 +24,11 @@ examples/shparse.c: cstr.c
 examples/scsplit.c: cstr.c
 	$(CCF) -o$(BIN)/scsplit $(EXM)/scsplit.c $(BIN)/cstr.o
 
-examples/: examples/shparse.c examples/scsplit.c
+examples/replace.c: cstr.c
+	$(CCF) -o$(BIN)/replace $(EXM)/replace.c $(BIN)/cstr.o
+	
+examples/strsplit.c: cstr.c
+	$(CCF) -o$(BIN)/strsplit $(EXM)/strsplit.c $(BIN)/cstr.o
+
+examples/: examples/shparse.c examples/scsplit.c examples/replace.c examples/strsplit.c
 examples: examples/
