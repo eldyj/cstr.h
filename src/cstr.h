@@ -92,4 +92,9 @@ void cstrarr_free(char ***const a);
 void cstrarr_reverse(const char **const *const a);
 size_t cstrarr_count(const char *const *const a, const char *const s);
 void cstrarr_replace(char **const *const a, const char *const s0, const char *const s1);
+size_t cstrarr_contains(const char *const *const a, const char *const s);
+void cstr_insert(char **const s, const char c, const size_t p);
+void cstr_rm(char **const s, const size_t p);
+size_t cstr_find_space_after(const char *const s, const size_t p);
+size_t cstr_find_space_before(const char *const s, const size_t p);
 #endif /* !CSTR_H */

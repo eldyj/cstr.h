@@ -71,6 +71,7 @@ cstr_append(s0, s1)
 	
 	char *const t = (*s0)+l0;
 	cstr_ncopy(&t, p, l1);
+	t[l1] = 0;
 
 	if (is_same)
 		free(p);
@@ -233,22 +234,11 @@ char
 
 	if (l0 < l1)
 		return NULL;
-	
-	// if (cstr_startswith(s0, s1))
-		// return cstr_concat(s2, s0+l1);
-// 
-	// if (cstr_endswith(s0, s1)) {
-		// char *t0 = cstr_substr(s0, 0, l0-l1);
-		// cstr_append(&t0, s2);
-		// return t0;
-	// }
 
 	char *t0 = cstr_substr(s0, 0, i-1);
 	cstr_append(&t0, s2);
 	cstr_append(&t0, s0+i-1+l1);
 	return t0;
-
-	return NULL;
 }
 
 char
@@ -1160,5 +1150,93 @@ cstrarr_replace(a, s0, s1)
 
 		++i;
 	}
+}
+
+size_t
+cstrarr_contains(a, s)
+	const char *const *const a, *const s;
+{
+	const size_t l = cstrarr_len(a);
+	
+	size_t i = 0;
+	while (i < l)
+		if (cstr_equals(a[i++], s))
+			return i;
+
+	return 0;
+}
+
+void
+cstr_insert(s, c, p)
+	char **const s;
+	const char c;
+	const size_t p;
+{
+	char *t0 = cstr_bashslice(*s, 0, p);
+	cstr_append(&t0, &c);
+	char *t1 = cstr_lcut(*s, p);
+	cstr_append(&t0, t1);
+	free(t1);
+	free(*s);
+	*s = t0;
+}
+
+void
+cstr_rm(s, p)
+	char **const s;
+	const size_t p;
+{
+	char *t0 = cstr_bashslice(*s, 0, p-1);
+	char *t1 = cstr_lcut(*s, p);
+	cstr_append(&t0, t1);
+	free(t1);
+	free(*s);
+	*s = t0;
+}
+
+size_t
+cstr_find_space_after(s, p)
+	const char *const s;
+	const size_t p;
+{
+	size_t i = p+1;
+	size_t m = cstr_len(s);
+
+	if (!s[p] || !s[i])
+		return p;
+
+	while (s[i] && !char_is_space(s[i]))
+		++i;
+
+	while (s[i] && char_is_space(s[i]))
+		++i;
+
+	if (i > m)
+		return m;
+
+	return i;
+}
+
+size_t
+cstr_find_space_before(s, p)
+	const char *const s;
+	const size_t p;
+{
+	if (!p)
+		return 0;
+
+	size_t i = p-1;
+
+
+	while (!char_is_space(s[i]) && i)
+		--i;
+
+	while (char_is_space(s[i]) && i)
+		--i;
+
+	if (!i)
+		return 0;
+
+	return ++i;
 }
 #endif /* !CSTR_C */
