@@ -357,7 +357,7 @@ cstr_replace(s0, s1, s2)
 		o += i-1+l2;
 	}
 
-	return 1;
+	return 0;
 }
 
 uint8_t
