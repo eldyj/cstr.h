@@ -456,9 +456,13 @@ cstr_reverse(s)
 	size_t i = 0;
 	
 	while (j > i) {
+		const char t = s[j];
 		if ((s[j] = s[i]) != s[i])
 			return 1;
-			
+
+		if ((s[i] = t) != t)
+			return 1;
+		
 		--j;
 		++i;
 	}
