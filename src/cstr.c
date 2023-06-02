@@ -163,10 +163,7 @@ cstr_insert(s0, s1, p)
 	if (cstr_rncopy(*s0+p, *s0+p+l1, l0-p+1))
 		return 1;
 	
-	if (cstr_ncopy(s1, *s0+p, l1))
-		return 1;
-	
-	return 0;
+	return cstr_ncopy(s1, *s0+p, l1);
 }
 
 uint8_t
@@ -179,10 +176,7 @@ cstr_append(s0, s1)
 	const size_t nl = l0 + l1;
 
 	*s0 = cstr_realloc(*s0, nl);
-	if (cstr_ncopy(s1, *s0+l0, l1))
-		return 1;
-	
-	return 0;
+	return cstr_ncopy(s1, *s0+l0, l1);
 }
 
 uint8_t
@@ -198,10 +192,7 @@ cstr_prepend(s0, s1)
 	if (cstr_rncopy(*s0, *s0+l1, l0+1))
 		return 1;
 	
-	if (cstr_ncopy(s1, *s0, l1))
-		return 1;
-	
-	return 0;
+	return cstr_ncopy(s1, *s0, l1);
 }
 
 uint8_t
@@ -218,8 +209,7 @@ cstr_rem(s, p)
 		return 1;
 
 	*s = cstr_realloc(*s, l-1);
-	(*s)[l-1] = 0;
-	return 0;
+	return (*s)[l-1] = 0;
 }
 
 uint8_t
@@ -385,12 +375,11 @@ char
 {
 	char *r = cstr_alloc(l);
 	
-	if (cstr_bashslice_to(s, o, l, r)) {
-		cstr_free(r);
-		r = NULL;
-	}
+	if (!cstr_bashslice_to(s, o, l, r))
+		return r;
 	
-	return r;
+	cstr_free(r);
+	return NULL;
 }
 
 char
@@ -400,12 +389,11 @@ char
 {
 	char *r = cstr_alloc(p0-p1);
 	
-	if (cstr_substr_to(s, p0, p1, r)) {
-		cstr_free(r);
-		r = NULL;
-	}
-
-	return r;
+	if (!cstr_substr_to(s, p0, p1, r))
+		return r;
+	
+	cstr_free(r);
+	return NULL;
 }
 
 uint8_t
@@ -458,6 +446,53 @@ cstr_find_space_before(s, p)
 		return 0;
 
 	return ++i;
+}
+
+uint8_t
+cstr_reverse(s)
+	char *const s;
+{
+	size_t j = cstr_len(s) - 1;
+	size_t i = 0;
+	
+	while (j > i) {
+		if ((s[j] = s[i]) != s[i])
+			return 1;
+			
+		--j;
+		++i;
+	}
+
+	return 0;
+}
+
+char
+*cstr_reversed(s)
+	const char *const s;
+{
+	char *const r = cstr_dup(s);
+	if (!cstr_reverse(r))
+		return r;
+
+	cstr_free(r);
+	return NULL;
+}
+
+char
+*cstr_mul(s, n)
+	const char *const s;
+	const size_t n;
+{
+	char *r = cstr_dup(s);
+	size_t i = 0;
+	while (++i < n) {
+		if (cstr_append(&r, s)) {
+			free(r);
+			return NULL;
+		}
+	}
+
+	return r;
 }
 
 #endif /* !CSTR_C */

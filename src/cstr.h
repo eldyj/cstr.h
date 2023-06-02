@@ -35,5 +35,7 @@ char *cstr_substr(const char *const s, const size_t p0, const size_t p1);
 uint8_t char_is_space(const char c);
 size_t cstr_find_space_after(const char *const s, const size_t p);
 size_t cstr_find_space_before(const char *const s, const size_t p);
-
+uint8_t cstr_reverse(char *const s);
+char *cstr_reversed(const char *const s);
+char *cstr_mul(const char *const s, const size_t n);
 #endif /* !CSTR_H */
