@@ -38,4 +38,9 @@ size_t cstr_find_space_before(const char *const s, const size_t p);
 uint8_t cstr_reverse(char *const s);
 char *cstr_reversed(const char *const s);
 char *cstr_mul(const char *const s, const size_t n);
+size_t cstr_leading_spaces(const char *const s);
+size_t cstr_trailing_spaces(const char *const s);
+uint8_t cstr_ltrim(char **const s);
+uint8_t cstr_rtrim(char **const s);
+uint8_t cstr_trim(char **const s);
 #endif /* !CSTR_H */

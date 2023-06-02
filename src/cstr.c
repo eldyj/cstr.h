@@ -499,4 +499,56 @@ char
 	return r;
 }
 
+size_t
+cstr_leading_spaces(s)
+	const char *const s;
+{
+	size_t i = 0;
+	while (char_is_space(s[i]))
+		++i;
+
+	return i;
+}
+
+size_t
+cstr_trailing_spaces(s)
+	const char *const s;
+{
+	const size_t l = cstr_len(s);
+	const size_t m = l - 1;
+	size_t i = 0;
+
+	if (!l || !m)
+		return 0;
+
+	while (char_is_space(s[m-i]))
+		++i;
+
+	return i;
+}
+
+uint8_t
+cstr_ltrim(s)
+	char **const s;
+{
+	return cstr_lshift(s, cstr_leading_spaces(*s));
+}
+
+uint8_t
+cstr_rtrim(s)
+	char **const s;
+{
+	return cstr_rshift(s, cstr_trailing_spaces(*s));
+}
+
+uint8_t
+cstr_trim(s)
+	char **const s;
+{
+	if (!cstr_ltrim(s))
+		return cstr_rtrim(s);
+
+	return 1;
+}
+
 #endif /* !CSTR_C */

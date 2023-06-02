@@ -21,5 +21,14 @@ install: cstr.o
 examples/rev.c: cstr.c
 	$(CCF) -o$(BIN)/rev $(EXM)/rev.c $(BIN)/cstr.o
 
-examples/: examples/rev.c
+examples/slice.c: cstr.c
+	$(CCF) -o$(BIN)/slice $(EXM)/slice.c $(BIN)/cstr.o
+
+examples/replace.c: cstr.c
+	$(CCF) -o$(BIN)/replace $(EXM)/replace.c $(BIN)/cstr.o
+
+examples/trim.c: cstr.c
+	$(CCF) -o$(BIN)/trim $(EXM)/trim.c $(BIN)/cstr.o
+
+examples/: examples/rev.c examples/slice.c examples/replace.c examples/trim.c
 examples: examples/
