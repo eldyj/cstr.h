@@ -350,6 +350,18 @@ cstr_replace(s0, s1, s2)
 	return 0;
 }
 
+char
+*cstr_replaced(s0, s1, s2)
+	const char *const s0, *const s1, *const s2;
+{
+	char *r = cstr_dup(s0);
+	if (!cstr_replace(&r, s1, s2))
+		return r;
+
+	cstr_free(r);
+	return NULL;
+}
+
 uint8_t
 cstr_bashslice_to(s, o, l, b)
 	const char *const s;

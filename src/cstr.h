@@ -28,6 +28,7 @@ uint8_t cstr_startswith(const char *const s0, const char *const s1);
 uint8_t cstr_endswith(const char *const s0, const char *const s1);
 size_t cstr_contains(const char *const s0, const char *const s1);
 uint8_t cstr_replace(char **const s0, const char *const s1, const char *const s2);
+char *cstr_replaced(const char *const s0, const char *const s1, const char *const s2);
 uint8_t cstr_bashslice_to(const char *const s, const size_t o, const size_t l, char *const b);
 uint8_t cstr_substr_to(const char *const s, const size_t p0, const size_t p1, char *const b);
 char *cstr_bashslice(const char *const s, const size_t o, const size_t l);
